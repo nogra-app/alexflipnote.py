@@ -46,7 +46,7 @@ async def _get_error_message(response: aiohttp.ClientResponse) -> str:
 
 
 class Client:
-    _BASE_URL: str = "https://api.alexflipnote.dev"
+    _BASE_URL: str = "http://localhost:2345"
     _BASE_URL_COFFEE: str = "https://coffee.alexflipnote.dev"
 
     __slots__ = ("token", "_session", "loop")
