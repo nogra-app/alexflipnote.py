@@ -53,24 +53,16 @@ class Client:
 
     def __init__(
             self,
-            token: str = None,
             *,
             session: aiohttp.ClientSession = None,
             loop: AbstractEventLoop = None
             ) -> None:
-        self.token: str = token
         self._session: aiohttp.ClientSession = session or HTTPSession(loop = loop)
 
     async def _api_request(self, endpoint: str = None, params: dict = None):
-        TOKEN_NOT_REQUIRED: List[str] = ["colour", "colour_image", "colour_image_gradient",
-                                         "birb", "dogs", "sadcat", "cats", "coffee"]
         called_from_function: str = str(inspect.stack()[1].function).lower()
-        if self.token is None and called_from_function not in TOKEN_NOT_REQUIRED:
-            raise MissingToken(called_from_function)
 
         headers = {}
-        if self.token and called_from_function not in TOKEN_NOT_REQUIRED:
-            headers["Authorization"] = str(self.token).strip()
 
         url = f"{self._BASE_URL}/{endpoint}"
         if params:
