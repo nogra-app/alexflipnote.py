@@ -4,6 +4,7 @@ from random import choice, randint
 from re import search
 from typing import Any, List, Match, Optional, Tuple, Union
 from urllib.parse import quote, urlencode
+import datetime
 
 from .classes import Colour, Filters, Image, MinecraftIcons
 from .errors import BadRequest, Forbidden, HTTPException, InternalServerError, MissingToken, NotFound
@@ -46,7 +47,7 @@ async def _get_error_message(response: aiohttp.ClientResponse) -> str:
 
 
 class Client:
-    _BASE_URL: str = "https://argon-alexflipnote-api.herokuapp.com/"
+    _BASE_URL: str = "http://localhost:3030/"
     _BASE_URL_COFFEE: str = "https://coffee.alexflipnote.dev"
 
     __slots__ = ("token", "_session", "loop")
@@ -300,6 +301,10 @@ class Client:
 
     async def shame(self, image: str) -> Image:
         response = await self._api_request("shame", {"image": str(image)})
+        return Image(response)
+
+    async def clock_by_datetime(self, datetime: datetime.datetime):
+        response = await self._api_request("clock", {"h": str(datetime.hour), "m": str(datetime.minute)})
         return Image(response)
 
     # Other
