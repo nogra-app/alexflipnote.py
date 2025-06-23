@@ -307,6 +307,15 @@ class Client:
         response = await self._api_request("clock", {"h": str(datetime.hour), "m": str(datetime.minute)})
         return Image(response)
 
+    async def battery_ios(self, percentage: int, charging: bool = False) -> Image:
+        if percentage < 0 or percentage > 100:
+            raise BadRequest("Percentage must be between 0 and 100.")
+
+        params = {"pct": str(percentage), "charging": "true" if charging else "false"}
+
+        response = await self._api_request("battery/ios", params)
+        return Image(response)
+
     # Other
 
     async def support_server(self, creator: bool = False) -> Union[str, Tuple]:
