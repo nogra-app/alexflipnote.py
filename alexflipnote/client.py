@@ -316,6 +316,11 @@ class Client:
         response = await self._api_request("battery/ios", params)
         return Image(response)
 
+    async def butgodsaid(self, text: str, text2: str) -> Image:
+        params = {"text": str(text), "text2": str(text2)}
+        response = await self._api_request("butgodsaid", params)
+        return Image(response)
+
     # Other
 
     async def support_server(self, creator: bool = False) -> Union[str, Tuple]:
